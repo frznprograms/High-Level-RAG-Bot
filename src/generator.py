@@ -46,21 +46,33 @@ class Generator:
                 ("human", "{input}"),
             ]
         )
-
         history_aware_retriever = create_history_aware_retriever(
             self.llm, self.retriever, contextualize_q_prompt
         )
-
         qa_prompt = ChatPromptTemplate.from_messages([
             ("system", "You are a helpful AI assistant. Use the following context to answer the user's question."),
             ("system", "Context: {context}"),
             MessagesPlaceholder(variable_name="chat_history"),
             ("human", "{input}")
         ])
-
         question_answer_chain = create_stuff_documents_chain(self.llm, qa_prompt)
         rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
         self.rag_chain = rag_chain
+
+    def clear_history(self):
+        reply = input("Are you sure you want to clear chat history? [y/n]")
+        if reply.strip() == 'y':
+            self.chat_history = []
+        else: 
+            print("Abandoning operation - chat history will be retained.")
+
+    def query(self, query):
+        answer = self.rag_chain.invoke({"input": query, "chat_history": generator.chat_history})['answer']
+        self.chat_history.extend([
+            HumanMessage(content=query),
+            AIMessage(content=answer)
+        ])
+        return answer
 
 if __name__ == "__main__":
     loader = Dataloader()
@@ -71,23 +83,11 @@ if __name__ == "__main__":
     retriever.initialize(splits)
     generator = Generator(retriever=retriever)
     generator.init_rag_chain()
+
+    ans1 = generator.query("When was Star Wars created?")
+    print(ans1)
+    ans2 = generator.query("What was its second franchise film?")
+    print(ans2)
+    generator.clear_history()
+    print(generator.chat_history)
     
-    question1 = "When was Star Wars created?"
-    answer1 = generator.rag_chain.invoke({"input": question1, "chat_history": generator.chat_history})['answer']
-    generator.chat_history.extend([
-        HumanMessage(content=question1),
-        AIMessage(content=answer1)
-    ])
-
-    print(f"Human: {question1}")
-    print(f"AI: {answer1}\n")
-
-    question2 = "What was its second franchise film?"
-    answer2 = generator.rag_chain.invoke({"input": question2, "chat_history": generator.chat_history})['answer']
-    generator.chat_history.extend([
-        HumanMessage(content=question2),
-        AIMessage(content=answer2)
-    ])
-
-    print(f"Human: {question2}")
-    print(f"AI: {answer2}")

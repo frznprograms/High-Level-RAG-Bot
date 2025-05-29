@@ -1,4 +1,6 @@
 /data
+/chroma_db
+.env
 hammond.code-workspace
 .DS_Store
 src/__pycache__/data_loader.cpython-312.pyc
