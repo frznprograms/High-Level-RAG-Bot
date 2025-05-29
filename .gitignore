@@ -2,3 +2,8 @@
 hammond.code-workspace
 .DS_Store
 src/__pycache__/data_loader.cpython-312.pyc
+chroma_db/c86e5555-7b9f-463c-8267-43f94464023b/link_lists.bin
+chroma_db/c86e5555-7b9f-463c-8267-43f94464023b/length.bin
+chroma_db/c86e5555-7b9f-463c-8267-43f94464023b/header.bin
+chroma_db/c86e5555-7b9f-463c-8267-43f94464023b/data_level0.bin
+chroma_db/chroma.sqlite3
