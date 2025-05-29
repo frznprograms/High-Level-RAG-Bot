@@ -31,6 +31,7 @@ class Dataloader:
             counter += 1
         print(f"Total of {counter} documents loaded successfully.")
         self.documents = documents
+        return documents
     
     def chunk_documents(
             self, 
@@ -47,14 +48,14 @@ class Dataloader:
         splits = text_splitter.split_documents(self.documents)
         self.splits = splits
         print(f"Total of {len(splits)} chunks obtained from corpus.")
-        
+        return splits
 
 if __name__ == "__main__":
     loader = Dataloader()
-    loader.load_documents()
-    loader.chunk_documents()
+    documents = loader.load_documents()
+    splits = loader.chunk_documents()
     print("First split: ")
     print(loader.splits[1])
     print("First split metadata: ")
-    print(loader.splits[1].metadata)
+    print(splits[1].metadata)
 
