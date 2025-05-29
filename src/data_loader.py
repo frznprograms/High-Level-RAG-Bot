@@ -36,8 +36,8 @@ class Dataloader:
     def chunk_documents(
             self, 
             splitter=RecursiveCharacterTextSplitter,
-            chunk_size=1000,
-            chunk_overlap=200,
+            chunk_size=2500,
+            chunk_overlap=100,
             len_func=len
     ):
         text_splitter = splitter(
