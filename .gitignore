@@ -8,3 +8,4 @@ chroma_db/c86e5555-7b9f-463c-8267-43f94464023b/header.bin
 chroma_db/c86e5555-7b9f-463c-8267-43f94464023b/data_level0.bin
 chroma_db/chroma.sqlite3
 src/__pycache__/vector_store.cpython-312.pyc
+src/__pycache__/retriever.cpython-312.pyc
