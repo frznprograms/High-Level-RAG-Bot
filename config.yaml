@@ -1,0 +1,48 @@
+llm:
+  azure_deployment: "your-deployment-name"
+  api_version: "2024-05-01"
+  temperature: 0.2
+  max_tokens: 1024
+  timeout: 15
+  max_retries: 3
+
+llm:
+  azure_deployment: "your-deployment-name"
+  api_version: "2024-05-01"
+  temperature: 0.2
+  max_tokens: 1024
+  timeout: 15
+  max_retries: 3
+
+css:
+  design: |
+    <style>
+    .chat-container {
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 1rem;
+        background-color: #1e1e1e;
+    }
+
+    .chat-message {
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+
+    .user-message {
+        background-color: #2d2d2d;
+        color: #ffffff;
+        text-align: right;
+    }
+
+    .ai-message {
+        background-color: #44475a;
+        color: #ffffff;
+        text-align: left;
+    }
+    </style>

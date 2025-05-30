@@ -1,4 +1,5 @@
 import os
+import yaml
 from dotenv import load_dotenv
 from retriever import Retriever
 from data_loader import Dataloader
@@ -20,15 +21,29 @@ cqsp = """
         """
 
 class Generator:
-    def __init__(self, retriever):
+    def __init__(self, retriever, config_path=None):
+        if config_path is None:
+            # path to generator.py:
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            config_path = os.path.join(base_dir, "../config.yaml")
+
+        with open(config_path, "r") as f:
+            config = yaml.safe_load(f)
+        llm_config = config.get("llm", {})
+
         self.llm = AzureChatOpenAI(
-            azure_deployment=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"),
-            api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
-            temperature=0,
-            max_tokens=None,
-            timeout=None,
-            max_retries=2
+            azure_deployment=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT_NAME", llm_config.get("azure_deployment")),
+            api_version=os.getenv("AZURE_OPENAI_API_VERSION", llm_config.get("api_version")),
+            temperature=llm_config.get("temperature", 0),
+            max_tokens=llm_config.get("max_tokens"),
+            timeout=llm_config.get("timeout"),
+            max_retries=llm_config.get("max_retries", 2),
+            stream=llm_config.get("stream", False),
         )
+
+        self.chat_history = []
+        self.retriever = retriever.retriever
+        self.rag_chain = None
         self.chat_history = []
         self.retriever = retriever.retriever
         if self.retriever is None: 

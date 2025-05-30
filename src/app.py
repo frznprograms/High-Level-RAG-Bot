@@ -1,3 +1,5 @@
+import os
+import yaml
 import streamlit as st
 from generator import Generator
 from data_loader import Dataloader
@@ -48,39 +50,11 @@ st.text_input("Ask me anything!", key="user_input", on_change=handle_submit)
 # Scrollable chat area
 st.markdown("### 🗨️ Conversation")
 
-chat_html = """
-<style>
-.chat-container {
-    height: 400px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 1rem;
-    background-color: #1e1e1e;
-}
-
-.chat-message {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    line-height: 1.5;
-    white-space: pre-wrap;
-}
-
-.user-message {
-    background-color: #2d2d2d;
-    color: #ffffff;
-    text-align: right;
-}
-
-.ai-message {
-    background-color: #44475a;
-    color: #ffffff;
-    text-align: left;
-}
-</style>
-<div class="chat-container">
-"""
+base_dir = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(base_dir, "../config.yaml")
+with open(config_path, "r") as f:
+    config = yaml.safe_load(f)
+chat_html = config.get("css", {}).get("design", "")
 
 for sender, message in st.session_state.chat_log:
     role_class = "user-message" if sender == "You" else "ai-message"
