@@ -4,8 +4,6 @@ from retriever import Retriever
 from data_loader import Dataloader
 from langchain_openai import AzureChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.schema.runnable import RunnablePassthrough
-from langchain_core.output_parsers import StrOutputParser
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain.chains import create_history_aware_retriever
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -34,7 +32,8 @@ class Generator:
         self.chat_history = []
         self.retriever = retriever.retriever
         if self.retriever is None: 
-            raise ValueError("Retriever has not been initialised. Please pass an initialised Retriever to the Generator...")
+            raise ValueError("Retriever has not been initialised. Please pass an \
+                             initialised Retriever to the Generator...")
         self.rag_chain = None
         
     def init_rag_chain(self, cqsp=cqsp):
@@ -50,7 +49,8 @@ class Generator:
             self.llm, self.retriever, contextualize_q_prompt
         )
         qa_prompt = ChatPromptTemplate.from_messages([
-            ("system", "You are a helpful AI assistant. Use the following context to answer the user's question."),
+            ("system", "You are a helpful AI assistant. Use the following context to \
+             answer the user's question."),
             ("system", "Context: {context}"),
             MessagesPlaceholder(variable_name="chat_history"),
             ("human", "{input}")
