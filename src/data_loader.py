@@ -1,7 +1,4 @@
-import json 
 import os
-from typing import List
-from langchain_core.documents import Document
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 

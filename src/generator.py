@@ -27,7 +27,7 @@ class Generator:
             temperature=0,
             max_tokens=None,
             timeout=None,
-            max_retries=2,
+            max_retries=2
         )
         self.chat_history = []
         self.retriever = retriever.retriever
@@ -67,7 +67,7 @@ class Generator:
             print("Abandoning operation - chat history will be retained.")
 
     def query(self, query):
-        answer = self.rag_chain.invoke({"input": query, "chat_history": generator.chat_history})['answer']
+        answer = self.rag_chain.invoke({"input": query, "chat_history": self.chat_history})['answer']
         self.chat_history.extend([
             HumanMessage(content=query),
             AIMessage(content=answer)
